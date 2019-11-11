@@ -1,0 +1,19 @@
+{
+  "name": "hockey-manager",
+  "version": "1.0.0",
+  "description": "MERN stack project",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "server": "node server"
+  },
+  "author": "Adel Rezvanov",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.7.9"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.4"
+  }
+}
