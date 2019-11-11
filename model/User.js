@@ -5,10 +5,14 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  age: {
-    type: Number,
+  email: {
+    type: String,
     required: true
+  },
+  password: {
+    type: String,
+    reaquired: true
   }
 });
 
-module.esports = User = mongoose.model('user', UserSchema);
+module.exports = User = mongoose.model('user', UserSchema);
