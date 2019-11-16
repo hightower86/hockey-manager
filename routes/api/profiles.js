@@ -15,7 +15,6 @@ router.get('/', async (req, res) => {
     console.error(err.message);
     res.status(500).send('Server error');
   }
-  res.send('Hello profiles');
 });
 
 // @ POST  /api/profiles
@@ -42,6 +41,10 @@ router.post(
   ],
   async (req, res) => {
     const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(400).json({ errors: errors.array() });
+    }
+
     const { firstName, lastName, amplua, phoneNumber, team } = req.body;
 
     // Build profile object
