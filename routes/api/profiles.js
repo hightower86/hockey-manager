@@ -1,19 +1,27 @@
-const route = require('express').Router();
+const router = require('express').Router();
 const Profile = require('../../model/Profile');
+const User = require('../../model/User');
 const auth = require('../../middleware/auth.js');
 const { check, validationResult } = require('express-validator');
 
 // @ GET  /api/profiles
 // @ desc Get users profiles
 // @ Private
-route.get('/', (req, res) => {
+router.get('/', async (req, res) => {
+  try {
+    const profiles = await Profile.find();
+    res.status(200).json(profiles);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
   res.send('Hello profiles');
 });
 
 // @ POST  /api/profiles
 // @ desc Create / update profile
 // @ Private
-route.post(
+router.post(
   '/',
   [
     auth,
@@ -68,4 +76,21 @@ route.post(
   }
 );
 
-module.exports = route;
+// @ DELETE /api/profiles
+// @ delete profile and user
+// @ Private
+router.delete('/', auth, async (req, res) => {
+  try {
+    // Remove Profile
+    await Profile.findOneAndRemove({ user: req.user.id });
+    // Remove User
+    await User.findByIdAndRemove({ _id: req.user.id });
+
+    res.status(200).send('User and profile deleted');
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
+module.exports = router;
